@@ -13,10 +13,16 @@ const userSchema = new mongoose.Schema({
         type: [String],
         default: ["Employee"]
     },
+    email: {
+        type: String,
+        default: ""
+    },
     active: {
         type: Boolean,
         default: true
     }
+}, {
+    timestamp: true
 })
 
 module.exports = mongoose.model('User', userSchema)

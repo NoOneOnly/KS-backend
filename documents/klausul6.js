@@ -1,4 +1,4 @@
-module.exports = ({ name, price1, price2, receiptId, subSatu, subDua, subTiga }) => {
+module.exports = ({ name, price1, price2, receiptId, subSatu, subDua, subTiga, subEmpat, subLima, subEnam }) => {
     const today = new Date();
     return `
    <!DOCTYPE html>
@@ -84,17 +84,24 @@ module.exports = ({ name, price1, price2, receiptId, subSatu, subDua, subTiga })
                        </tbody>           
                    </table>
                    <div class="body">
-                       <h3>Klausul 8. Operasi</h3>
-                       <p>Operation</p>
-                       <h4>8.1 Perencanaan dan pengendalian operasional</h4>
-                       <p>${subSatu}.</p>
-   
-                       <h4>8.2 Desain</h4>
-                       <p>Design</p>
-                       <p>${subDua}. </p>
-                       <h4>8.3 pengadaan</h4>
-                       <p><i>Procurement</i></p>
-                       <p>${subTiga}.</p>  
+                        <h3>Klausul 6. Perencanaan</h3>
+                                <h4>6.1 Tindakan untuk mengatasi resiko dan peluang</h4>
+                                <p>${subSatu}.</p>
+
+                                <h4>6.2 Tujuan target energi dan perencanaan untuk mencapainya</h4>
+                                <p>${subDua}. </p>
+                                
+                                <h4>6.3 Tinjauan energi</h4>
+                                <p>${subTiga}.</p>  
+
+                                <h4>6.4 Indikator kinerja energi (EnPI)</h4>
+                                <p>${subEmpat}.</p>  
+
+                                <h4>6.5 Baseline energi (EnB)</h4>
+                                <p>${subLima}.</p>  
+
+                                <h4>6.6 Perencanaan pengumpulan data energi</h4>
+                                <p>${subEnam}.</p>  
                    </div>
    
                </div>

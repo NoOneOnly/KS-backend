@@ -84,17 +84,16 @@ module.exports = ({ name, price1, price2, receiptId, subSatu, subDua, subTiga })
                        </tbody>           
                    </table>
                    <div class="body">
-                       <h3>Klausul 8. Operasi</h3>
-                       <p>Operation</p>
-                       <h4>8.1 Perencanaan dan pengendalian operasional</h4>
-                       <p>${subSatu}.</p>
-   
-                       <h4>8.2 Desain</h4>
-                       <p>Design</p>
-                       <p>${subDua}. </p>
-                       <h4>8.3 pengadaan</h4>
-                       <p><i>Procurement</i></p>
-                       <p>${subTiga}.</p>  
+                        <h3>Klausul 5. Kepemimpinan</h3>
+
+                        <h4>5.1 Kepemimpinan dan komitmen</h4>
+                        <p>${subSatu}.</p>
+                
+                        <h4>5.2 Kebijakan energi</h4>
+                        <p>${subDua}. </p>
+                        
+                        <h4>5.3 Peran, tanggung jawab, dan wewenang organisasi</h4>
+                        <p>${subTiga}.</p>  
                    </div>
    
                </div>

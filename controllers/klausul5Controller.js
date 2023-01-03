@@ -1,11 +1,11 @@
 const pdf = require('html-pdf');
-const pdfTemplate = require('../documents/klausul8')
+const pdfTemplate = require('../documents/klausul5')
 
 var options = { format: 'Letter' };
 
 const getAllKlausul = async (req, res) => {
 
-    res.sendFile(`/klausul8.pdf`, { root: '.' })
+    res.sendFile(`/klausul5.pdf`, { root: '.' })
 }
 const createNewKlausul = async (req, res) => {
     if (!req?.body?.name || !req?.body?.receiptId || !req?.body?.price1 || !req?.body?.price2 || !req?.body?.subSatu || !req?.body?.subDua || !req?.body?.subTiga) {
@@ -16,7 +16,7 @@ const createNewKlausul = async (req, res) => {
 
 
     try {
-        pdf.create(pdfTemplate(req.body), options).toFile('klausul8.pdf', (err) => {
+        pdf.create(pdfTemplate(req.body), options).toFile('klausul5.pdf', (err) => {
             if (err) {
                 console.log(err);
                 res.send(Promise.reject());

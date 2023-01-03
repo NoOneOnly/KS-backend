@@ -1,4 +1,4 @@
-module.exports = ({ name, price1, price2, receiptId, subSatu, subDua, subTiga }) => {
+module.exports = ({ name, price1, price2, receiptId, subSatu, subDua, subTiga, subEmpat }) => {
     const today = new Date();
     return `
    <!DOCTYPE html>
@@ -84,17 +84,19 @@ module.exports = ({ name, price1, price2, receiptId, subSatu, subDua, subTiga })
                        </tbody>           
                    </table>
                    <div class="body">
-                       <h3>Klausul 8. Operasi</h3>
-                       <p>Operation</p>
-                       <h4>8.1 Perencanaan dan pengendalian operasional</h4>
-                       <p>${subSatu}.</p>
-   
-                       <h4>8.2 Desain</h4>
-                       <p>Design</p>
-                       <p>${subDua}. </p>
-                       <h4>8.3 pengadaan</h4>
-                       <p><i>Procurement</i></p>
-                       <p>${subTiga}.</p>  
+                        <h3>Klausul 4. Konteks Organisasi</h3>
+                    
+                            <h4>4.1 Memahami organisasi dan konteksnya</h4>
+                            <p>${subSatu}.</p>
+                    
+                            <h4>4.2 Memahami kebutuhan dan harapan pihak yang berkepentingan</h4>
+                            <p>${subDua}. </p>
+                            
+                            <h4>4.3 Menentukan ruang lingkup sistem manajemen energi</h4>
+                            <p>${subTiga}.</p>  
+                    
+                            <h4>4.4 Sistem manajemen energi</h4>
+                            <p>${subEmpat}.</p>  
                    </div>
    
                </div>

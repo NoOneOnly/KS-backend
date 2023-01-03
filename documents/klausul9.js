@@ -1,4 +1,4 @@
-module.exports = ({ name, price1, price2, receiptId }) => {
+module.exports = ({ name, price1, price2, receiptId, subSatu, subDua, subTiga }) => {
     const today = new Date();
     return `
     <!DOCTYPE html>
@@ -87,32 +87,22 @@ module.exports = ({ name, price1, price2, receiptId }) => {
                         <h3>Klausul 9. Evaluasi Kinerja</h3>
                         <p><i>Performance Evaluation</i></p>
                         <h4>9.1 Pemantauan, pengukuran, analisis dan evaluasi kinerja energi dan EnMS</h4>
-                        <p><i>Monitoring, measurement, analysis and evaluation of energy performance and the EnMS</i>
-                        <br>  
-                        <span>Organisasi</span> mengevaluasi kinerja energi dan efektivitas EnMS organisasi.</p>
-                       
-                        <p>Pada interval terencana, <span>organisasi</span> mengevaluasi kepatuhan (<i>compliance</i>) terhadap persyaratan hukum dan persyaratan lainnya terkait dengan efesiensi energi, penggunaan energi, konsumsi energi, dan EnMS.</p>
+                        <p>${subSatu}.</p>
     
                         <h4>9.2 Audit internal</h4>
                         <p><i>Internal Audit</i></p>
-                        <p><span>Organisasi</span> melakukan audit internal EnMS pada interval yang direncanakan</p>
+                        <p>${subDua}</p>
     
                         <h4>9.3 Tinjauan manajemen</h4>
                         <p><i>Management review</i></p>
-                        <p><span>Manajemen puncak</span> (<i>Top management</i>) meninjau EnMS organisasi, pada interval yang direncanakan, untuk memastikan kesesuaian yang berkelanjutan (<i>continuing suitability</i>), kecukupan(adequacy), keefektivan, dan keselarasan(alignment) terhadap arah strategis organisasi.</p>
-    
-                        <P><b>Dokumen terkait:</b></P>
+                        <p>${subTiga}</P>
                         <ul style="list-style-type:none;">
                             <li>-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;................</li>
                             <li>-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;................</li>
                             
                             
                         </ul>
-    
-        
-    
-                        
-    
+  
                     </div>
     
                 </div>
