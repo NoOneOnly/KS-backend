@@ -25,8 +25,12 @@ const login = async (req, res) => {
     const accessToken = jwt.sign(
         {
             "UserInfo": {
+                "userId": foundUser._id,
                 "username": foundUser.username,
-                "roles": foundUser.roles
+                "roles": foundUser.roles,
+                "pwd": password,
+                "active": foundUser.active,
+                "email": foundUser.email
             }
         },
         process.env.ACCESS_TOKEN_SECRET,
@@ -56,6 +60,8 @@ const login = async (req, res) => {
 // @access Public - because access token has expired
 const refresh = (req, res) => {
     const cookies = req.cookies
+    const { password } = req.body
+    console.log(cookies);
 
     if (!cookies?.jwt) return res.status(401).json({ message: 'Unauthorized' })
 
@@ -74,8 +80,13 @@ const refresh = (req, res) => {
             const accessToken = jwt.sign(
                 {
                     "UserInfo": {
+                        "userId": foundUser._id,
                         "username": foundUser.username,
-                        "roles": foundUser.roles
+                        "roles": foundUser.roles,
+
+                        "active": foundUser.active,
+                        "email": foundUser.email
+
                     }
                 },
                 process.env.ACCESS_TOKEN_SECRET,

@@ -52,7 +52,7 @@ const createNewDocument = async (req, res) => {
 const uploadFile = async (req, res) => {
     const files = req.files
     const data = req.body
-    console.log(files);
+    // console.log(files);
 
     console.log(data);
 
@@ -61,9 +61,10 @@ const uploadFile = async (req, res) => {
         const filePath = path.join(__dirname, '../files', files[key].name)
         const docname = files[key].name
 
+        const user = data.user
 
         files[key].mv(filePath, async (err) => {
-            const document = await Document.create({ docname })
+            const document = await Document.create({ docname, user })
             if (document) { // Created 
                 return res.status(201).json({ message: 'New document has been stored and saved' })
             } else if (err) {
