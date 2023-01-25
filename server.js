@@ -38,12 +38,15 @@ app.use('/users', require('./routes/userRoutes'))
 app.use('/upload', fileUpload({ createParentPath: true }), filesPayloadExists, fileExtLimiter(['.png', '.jpg', '.pdf', '.doc']), fileSizeLimiter, require('./routes/uploadFilesRoutes'))
 app.use('/notes', require('./routes/noteRoutes'))
 app.use('/manualbook', require('./routes/manualbookRoutes'))
+app.use('/templates', require('./routes/templatesRoutes'))
 app.use('/document4', require('./routes/klausul4'))
 app.use('/document5', require('./routes/klausul5'))
 app.use('/document6', require('./routes/klausul6'))
 app.use('/document7', require('./routes/klausul7'))
 app.use('/document8', require('./routes/klausul8'))
 app.use('/document9', require('./routes/klausul9'))
+app.use('/klausal', require('./routes/klausalRoutes'))
+
 
 app.all('*', (req, res) => {
     res.status(404)

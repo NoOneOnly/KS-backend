@@ -1,4 +1,5 @@
 const User = require('../models/User')
+const FormIsu = require('../models/FormIsu')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
@@ -14,6 +15,13 @@ const login = async (req, res) => {
 
     const foundUser = await User.findOne({ username }).exec()
 
+    const userID = foundUser._id
+    const foundFormIsu = await FormIsu.findOne({ user: userID }).exec()
+
+
+
+
+
     if (!foundUser || !foundUser.active) {
         return res.status(401).json({ message: 'Unauthorized' })
     }
@@ -21,6 +29,81 @@ const login = async (req, res) => {
     const match = await bcrypt.compare(password, foundUser.password)
 
     if (!match) return res.status(401).json({ message: 'Unauthorized' })
+
+    if (foundFormIsu) {
+
+        const accessToken = jwt.sign(
+            {
+                "UserInfo": {
+                    "userId": foundUser._id,
+                    "username": foundUser.username,
+                    "roles": foundUser.roles,
+                    "pwd": password,
+                    "active": foundUser.active,
+                    "email": foundUser.email,
+                    "formisuID": foundFormIsu._id
+                }
+            },
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: '15m' }
+        )
+
+
+
+
+        const refreshToken = jwt.sign(
+            { "username": foundUser.username, "pwd": password },
+            process.env.REFRESH_TOKEN_SECRET,
+            { expiresIn: '7d' }
+        )
+
+        // Create secure cookie with refresh token 
+        res.cookie('jwt', refreshToken, {
+            httpOnly: true, //accessible only by web server 
+            secure: true, //https
+            sameSite: 'None', //cross-site cookie 
+            maxAge: 7 * 24 * 60 * 60 * 1000 //cookie expiry: set to match rT
+        })
+
+        // Send accessToken containing username and roles 
+        res.json({ accessToken })
+    } else {
+        const accessToken = jwt.sign(
+            {
+                "UserInfo": {
+                    "userId": foundUser._id,
+                    "username": foundUser.username,
+                    "roles": foundUser.roles,
+                    "pwd": password,
+                    "active": foundUser.active,
+                    "email": foundUser.email,
+                    "formisuID": ""
+                }
+            },
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: '15m' }
+        )
+
+
+
+
+        const refreshToken = jwt.sign(
+            { "username": foundUser.username, "pwd": password },
+            process.env.REFRESH_TOKEN_SECRET,
+            { expiresIn: '7d' }
+        )
+
+        // Create secure cookie with refresh token 
+        res.cookie('jwt', refreshToken, {
+            httpOnly: true, //accessible only by web server 
+            secure: true, //https
+            sameSite: 'None', //cross-site cookie 
+            maxAge: 7 * 24 * 60 * 60 * 1000 //cookie expiry: set to match rT
+        })
+
+        // Send accessToken containing username and roles 
+        res.json({ accessToken })
+    }
 
     const accessToken = jwt.sign(
         {
@@ -30,15 +113,19 @@ const login = async (req, res) => {
                 "roles": foundUser.roles,
                 "pwd": password,
                 "active": foundUser.active,
-                "email": foundUser.email
+                "email": foundUser.email,
+                "formisuID": ''
             }
         },
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: '15m' }
     )
 
+
+
+
     const refreshToken = jwt.sign(
-        { "username": foundUser.username },
+        { "username": foundUser.username, "pwd": password },
         process.env.REFRESH_TOKEN_SECRET,
         { expiresIn: '7d' }
     )
@@ -53,19 +140,25 @@ const login = async (req, res) => {
 
     // Send accessToken containing username and roles 
     res.json({ accessToken })
+
+
 }
+
+
 
 // @desc Refresh
 // @route GET /auth/refresh
 // @access Public - because access token has expired
 const refresh = (req, res) => {
     const cookies = req.cookies
-    const { password } = req.body
+
     console.log(cookies);
 
     if (!cookies?.jwt) return res.status(401).json({ message: 'Unauthorized' })
 
     const refreshToken = cookies.jwt
+
+
 
     jwt.verify(
         refreshToken,
@@ -75,7 +168,14 @@ const refresh = (req, res) => {
 
             const foundUser = await User.findOne({ username: decoded.username }).exec()
 
+            const userID = foundUser._id
+            const foundFormIsu = await FormIsu.findOne({ user: userID }).exec()
+
+
+            const pwd = decoded.pwd
+
             if (!foundUser) return res.status(401).json({ message: 'Unauthorized' })
+
 
             const accessToken = jwt.sign(
                 {
@@ -83,10 +183,10 @@ const refresh = (req, res) => {
                         "userId": foundUser._id,
                         "username": foundUser.username,
                         "roles": foundUser.roles,
-
+                        "pwd": pwd,
                         "active": foundUser.active,
-                        "email": foundUser.email
-
+                        "email": foundUser.email,
+                        "formisuID": foundFormIsu._id
                     }
                 },
                 process.env.ACCESS_TOKEN_SECRET,
