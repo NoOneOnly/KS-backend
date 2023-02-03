@@ -1,4 +1,4 @@
-module.exports = ({ name, price1, price2, receiptId, subSatu, subDua, subTiga, subEmpat }) => {
+module.exports = ({ name, price1, price2, receiptId, subDua, subEmpat, subSatu, subTiga }) => {
     const today = new Date();
     return `
    <!DOCTYPE html>

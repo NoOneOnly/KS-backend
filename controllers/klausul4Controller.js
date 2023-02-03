@@ -16,7 +16,7 @@ const createNewKlausul = async (req, res) => {
 
 
     try {
-        pdf.create(pdfTemplate(req.body), options).toFile('klausul4.pdf', (err) => {
+        await pdf.create(pdfTemplate(req.body), options).toFile('klausul4.pdf', (err) => {
             if (err) {
                 console.log(err);
                 res.send(Promise.reject());

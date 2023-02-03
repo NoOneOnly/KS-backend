@@ -105,41 +105,6 @@ const login = async (req, res) => {
         res.json({ accessToken })
     }
 
-    const accessToken = jwt.sign(
-        {
-            "UserInfo": {
-                "userId": foundUser._id,
-                "username": foundUser.username,
-                "roles": foundUser.roles,
-                "pwd": password,
-                "active": foundUser.active,
-                "email": foundUser.email,
-                "formisuID": ''
-            }
-        },
-        process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: '15m' }
-    )
-
-
-
-
-    const refreshToken = jwt.sign(
-        { "username": foundUser.username, "pwd": password },
-        process.env.REFRESH_TOKEN_SECRET,
-        { expiresIn: '7d' }
-    )
-
-    // Create secure cookie with refresh token 
-    res.cookie('jwt', refreshToken, {
-        httpOnly: true, //accessible only by web server 
-        secure: true, //https
-        sameSite: 'None', //cross-site cookie 
-        maxAge: 7 * 24 * 60 * 60 * 1000 //cookie expiry: set to match rT
-    })
-
-    // Send accessToken containing username and roles 
-    res.json({ accessToken })
 
 
 }
