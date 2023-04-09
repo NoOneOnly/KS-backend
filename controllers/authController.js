@@ -1,5 +1,6 @@
 const User = require('../models/User')
 const FormIsu = require('../models/FormIsu')
+const Document = require('../models/Document')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
@@ -14,8 +15,9 @@ const login = async (req, res) => {
     }
 
     const foundUser = await User.findOne({ username }).exec()
-
     const userID = foundUser._id
+    const foundDocument = await Document.find({ user: userID }).exec()
+
     const foundFormIsu = await FormIsu.findOne({ user: userID }).exec()
 
 
@@ -30,6 +32,8 @@ const login = async (req, res) => {
 
     if (!match) return res.status(401).json({ message: 'Unauthorized' })
 
+
+
     if (foundFormIsu) {
 
         const accessToken = jwt.sign(
@@ -41,7 +45,8 @@ const login = async (req, res) => {
                     "pwd": password,
                     "active": foundUser.active,
                     "email": foundUser.email,
-                    "formisuID": foundFormIsu._id
+                    "formisuID": foundFormIsu._id,
+                    "docs": foundDocument
                 }
             },
             process.env.ACCESS_TOKEN_SECRET,
@@ -77,7 +82,8 @@ const login = async (req, res) => {
                     "pwd": password,
                     "active": foundUser.active,
                     "email": foundUser.email,
-                    "formisuID": ""
+                    "formisuID": "",
+                    "docs": foundDocument
                 }
             },
             process.env.ACCESS_TOKEN_SECRET,
@@ -134,31 +140,60 @@ const refresh = (req, res) => {
             const foundUser = await User.findOne({ username: decoded.username }).exec()
 
             const userID = foundUser._id
+
+            const foundDocument = await Document.find({ user: userID }).exec()
+
             const foundFormIsu = await FormIsu.findOne({ user: userID }).exec()
 
 
             const pwd = decoded.pwd
+            const doc = decoded.document
+
+            console.log(foundDocument)
 
             if (!foundUser) return res.status(401).json({ message: 'Unauthorized' })
 
+            if (foundFormIsu) {
+                const accessToken = jwt.sign(
+                    {
+                        "UserInfo": {
+                            "userId": foundUser._id,
+                            "username": foundUser.username,
+                            "roles": foundUser.roles,
+                            "pwd": pwd,
+                            "active": foundUser.active,
+                            "email": foundUser.email,
+                            "formisuID": foundFormIsu._id,
+                            "docs": foundDocument
+                        }
+                    },
+                    process.env.ACCESS_TOKEN_SECRET,
+                    { expiresIn: '15m' }
+                )
 
-            const accessToken = jwt.sign(
-                {
-                    "UserInfo": {
-                        "userId": foundUser._id,
-                        "username": foundUser.username,
-                        "roles": foundUser.roles,
-                        "pwd": pwd,
-                        "active": foundUser.active,
-                        "email": foundUser.email,
-                        "formisuID": foundFormIsu._id
-                    }
-                },
-                process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: '15m' }
-            )
+                res.json({ accessToken })
 
-            res.json({ accessToken })
+            } else {
+                const accessToken = jwt.sign(
+                    {
+                        "UserInfo": {
+                            "userId": foundUser._id,
+                            "username": foundUser.username,
+                            "roles": foundUser.roles,
+                            "pwd": pwd,
+                            "active": foundUser.active,
+                            "email": foundUser.email,
+                            "formisuID": "",
+                            "docs": foundDocument
+                        }
+                    },
+                    process.env.ACCESS_TOKEN_SECRET,
+                    { expiresIn: '15m' }
+                )
+
+                res.json({ accessToken })
+            }
+
         }
     )
 }

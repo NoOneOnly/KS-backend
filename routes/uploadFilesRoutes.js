@@ -8,5 +8,7 @@ const verifyJWT = require('../middleware/verifyJWT')
 
 router.route('/')
     .post(uploadController.uploadFile)
+    .get(uploadController.getAllFiles)
+    .delete(uploadController.deleteFile)
 
 module.exports = router
